@@ -237,13 +237,16 @@ const chunks=[
   {role:'model', content:' co tam**'}
 ];
 
-let cumulativeHTML=""; let idx=0;
-for(const chunk of chunks){
-  const html=processChunk(chunk.content + '\n', S);
+let cumulativeHTML="";
+for (let i = 0; i < chunks.length; i++) {
+  const chunk = chunks[i];
+  const html = processChunk(chunk.content + '\n', S);
   cumulativeHTML += html;
-  console.log(`chunk ${++idx}:`, cumulativeHTML);
+  if (i === chunks.length - 1) {
+    cumulativeHTML += finalize(S);
+  }
+  console.log(`chunk ${i + 1}:`, cumulativeHTML);
 }
-cumulativeHTML += finalize(S);
 
 const voidTags=new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
 function checkHtmlBalance(html){
